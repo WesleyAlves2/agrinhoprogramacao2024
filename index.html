@@ -1,24 +1,96 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  Leonardo Da Vinci </title>
-    <tittle>Document</tittle>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agro: Campo & Cidade</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <div>
-            <img src="img/logo.png" alt="">
-            <p> 
-                       </p>
+  <header>
+    <h1>🌱 Agro: Ponte entre Campo e Cidade</h1>
+  </header>
 
-             <div>
-                <p>HTML</p>
-            <h1>Leonardo Da Vinci</h1>
-        </div>
-        <p>Acessibilidade</p>
-    </header>
+  <div class="controls">
+    <button onclick="toggleTheme()">Tema Preto/Branco</button>
+    <select id="language-switcher" onchange="switchLanguage()">
+      <option value="pt">Português</option>
+      <option value="en">English</option>
+    </select>
+    <button onclick="speakText()">🔊 Ouvir Texto</button>
+  </div>
+
+  <main aria-labelledby="intro-title">
+    <section>
+      <h2 id="intro-title">Entre o Verde e o Concreto</h2>
+      <p id="text-pt">
+        O agronegócio é mais do que um setor econômico — é uma conexão vital entre o campo produtivo e as cidades pulsantes. 
+        Das mãos do produtor até o mercado, do solo ao supermercado, o agro movimenta vidas, alimenta famílias e gera oportunidades.
+        Essa ponte entre o rural e o urbano é feita de inovação, sustentabilidade e trabalho duro. Seja na plantação de alimentos,
+        no cuidado com os animais ou na tecnologia agrícola, o agro está em todo lugar — no pão, na roupa, no combustível e no futuro do Brasil.
+      </p>
+      <p id="text-en" style="display: none;">
+        Agribusiness is more than just an economic sector — it's a vital connection between productive land and bustling cities.
+        From the hands of the farmer to the market, from soil to supermarket, agribusiness fuels lives, feeds families and creates opportunities.
+        This bridge between rural and urban is built on innovation, sustainability and hard work. Whether in food production, livestock care
+        or agricultural technology, agribusiness is everywhere — in bread, clothing, fuel and the future of Brazil.
+      </p>
+      <img class="hero" src="https://upload.wikimedia.org/wikipedia/commons/9/98/Agricultura_en_Benito_Ju%C3%A1rez.jpg" alt="Foto de plantação agrícola em Benito Juárez">
+      <p class="image-link">
+        Fonte da imagem: 
+        <a href="https://upload.wikimedia.org/wikipedia/commons/9/98/Agricultura_en_Benito_Ju%C3%A1rez.jpg" target="_blank">
+          Wikimedia Commons
+        </a>
+      </p>
+    </section>
+
+    <section>
+      <h2>Acessibilidade</h2>
+      <p>
+        Este site oferece contraste de cores, leitura em voz alta e opção de idiomas. É pensado para todas as pessoas, conectando conhecimento e inclusão.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Desenvolvido por Wesley Alves</p>
+  </footer>
+
+  <script>
+    let speechInProgress = false;
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function switchLanguage() {
+      const lang = document.getElementById('language-switcher').value;
+      document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
+      document.getElementById('text-pt').style.display = lang === 'pt' ? 'block' : 'none';
+      document.getElementById('text-en').style.display = lang === 'en' ? 'block' : 'none';
+    }
+
+    function speakText() {
+      if (speechInProgress) {
+        window.speechSynthesis.cancel();
+        speechInProgress = false;
+        return;
+      }
+
+      const lang = document.getElementById('language-switcher').value;
+      const text = lang === 'en'
+        ? document.getElementById('text-en').innerText
+        : document.getElementById('text-pt').innerText;
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = lang === 'en' ? 'en-US' : 'pt-BR';
+      utter.onend = () => {
+        speechInProgress = false;
+      };
+
+      speechInProgress = true;
+      speechSynthesis.speak(utter);
+    }
+  </script>
 </body>
 </html>
